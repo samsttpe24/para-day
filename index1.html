@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>de mi para ti</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      margin: 0;
+    }
+
+    svg {
+      width: 90vw;
+      height: 90vw;
+      max-width: 600px;
+      max-height: 600px;
+    }
+
+    path {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .rose-path {
+      stroke: #c084fc;
+      stroke-width: 2;
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 2000;
+      animation: draw 10s ease-in-out forwards;
+    }
+
+    .floating {
+      animation: float 4s ease-in-out infinite;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .mini-path {
+      stroke: #f472b6;
+      stroke-width: 1.5;
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 2000;
+      animation: drawMini 4s ease forwards;
+      animation-delay: 12s;
+    }
+
+    .mini-yellow {
+      stroke: #facc15;
+    }
+
+    @keyframes draw {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes drawMini {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    text {
+      font-family: Arial, sans-serif;
+      font-size: 32px;
+      fill: none;
+      stroke: #c084fc;
+      stroke-width: 1.5;
+      opacity: 0;
+      animation: fadeIn 4s ease forwards;
+      animation-delay: 10s;
+      text-anchor: middle;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 500px) {
+      text {
+        font-size: 28px;
+        stroke-width: 1.2;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<svg viewBox="0 0 600 600">
+  <!-- Rosa principal -->
+  <g id="rose-group">
+    <path id="rose" class="rose-path" />
+  </g>
+
+  <!-- Texto debajo -->
+  <path id="name-path" d="M100,520 Q300,550 500,520" />
+  <text>
+    <textPath href="#name-path" startOffset="50%">
+      Para ti Dayanna
+    </textPath>
+  </text>
+
+  <!-- Mini rosas en todo el lienzo, colores variados -->
+  <g class="mini-rose" transform="translate(100,100) scale(0.3)"><path class="mini-path" /></g>
+  <g class="mini-rose" transform="translate(450,130) scale(0.25)"><path class="mini-path" /></g>
+  <g class="mini-rose" transform="translate(120,400) scale(0.2)"><path class="mini-path" /></g>
+  <g class="mini-rose" transform="translate(400,420) scale(0.2)"><path class="mini-path mini-yellow" /></g>
+  <g class="mini-rose" transform="translate(160,420) scale(0.2)"><path class="mini-path mini-yellow" /></g>
+  <g class="mini-rose" transform="translate(460,250) scale(0.2)"><path class="mini-path mini-yellow" /></g>
+
+  <!-- Nuevas mini flores en zonas vacías -->
+  <g class="mini-rose" transform="translate(80,280) scale(0.18)"><path class="mini-path" style="stroke:#f9a8d4;" /></g>
+  <g class="mini-rose" transform="translate(520,320) scale(0.2)"><path class="mini-path" style="stroke:#e879f9;" /></g>
+  <g class="mini-rose" transform="translate(230,120) scale(0.22)"><path class="mini-path" style="stroke:#fb7185;" /></g>
+  <g class="mini-rose" transform="translate(370,100) scale(0.23)"><path class="mini-path" style="stroke:#f472b6;" /></g>
+  <g class="mini-rose" transform="translate(290,420) scale(0.2)"><path class="mini-path" style="stroke:#facc15;" /></g>
+  <g class="mini-rose" transform="translate(60,180) scale(0.17)"><path class="mini-path" style="stroke:#a78bfa;" /></g>
+  <g class="mini-rose" transform="translate(500,180) scale(0.17)"><path class="mini-path" style="stroke:#fda4af;" /></g>
+  <g class="mini-rose" transform="translate(40,500) scale(0.15)"><path class="mini-path" style="stroke:#e879f9;" /></g>
+  <g class="mini-rose" transform="translate(530,60) scale(0.18)"><path class="mini-path" style="stroke:#a78bfa;" /></g>
+  <g class="mini-rose" transform="translate(60,60) scale(0.2)"><path class="mini-path" style="stroke:#f472b6;" /></g>
+  <g class="mini-rose" transform="translate(500,500) scale(0.2)"><path class="mini-path" style="stroke:#fb7185;" /></g>
+  <g class="mini-rose" transform="translate(300,60) scale(0.22)"><path class="mini-path" style="stroke:#facc15;" /></g>
+  <g class="mini-rose" transform="translate(100,500) scale(0.19)"><path class="mini-path" style="stroke:#fda4af;" /></g>
+</svg>
+
+<script>
+  const path = document.getElementById("rose");
+  const group = document.getElementById("rose-group");
+
+  const a = 100;
+  const k = 4;
+  const cx = 300, cy = 250;
+  const steps = 1000;
+  const points = [];
+
+  for (let i = 0; i <= steps; i++) {
+    const theta = (Math.PI * 2 * i) / steps;
+    const r = a * Math.sin(k * theta);
+    const x = cx + r * Math.cos(theta);
+    const y = cy + r * Math.sin(theta);
+    points.push([x, y]);
+  }
+
+  let d = `M ${points[0][0]},${points[0][1]}`;
+  for (let i = 1; i < points.length; i++) {
+    d += ` L ${points[i][0]},${points[i][1]}`;
+  }
+
+  // Asigna la forma a la rosa principal
+  path.setAttribute("d", d);
+
+  // Aplica la misma forma a todas las mini rosas
+  document.querySelectorAll('.mini-path').forEach(p => {
+    p.setAttribute("d", d);
+  });
+
+  // Agrega movimiento suave cuando termine la flor principal
+  setTimeout(() => {
+    group.classList.add('floating');
+  }, 20000);
+
+  // Hacer clic en la flor principal abre otra página
+  group.addEventListener("click", () => {
+    window.location.href = "final.html";
+  });
+
+  group.style.cursor = "pointer";
+</script>
+
+</body>
+</html>

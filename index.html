@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="flor.png">
+
+  <title>de mi para ti</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: rgb(255, 220, 249);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    svg {
+      width: 90vw;
+      height: 90vw;
+      max-width: 600px;
+      max-height: 600px;
+      position: relative;
+      z-index: 1;
+    }
+
+    path {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .rose-path {
+      stroke: #c084fc;
+      stroke-width: 8;
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 2000;
+      animation: draw 10s ease-in-out forwards;
+    }
+
+    .name-path {
+      stroke: #c084fc;
+      stroke-width: 2;
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 2000;
+      animation: drawName 4s ease forwards;
+      animation-delay: 10s;
+    }
+
+    .line-path {
+      stroke: #c084fc;
+      stroke-width: 2;
+      stroke-dasharray: 2000;
+      stroke-dashoffset: 2000;
+      animation: drawLine 2s ease forwards;
+      animation-delay: 16s;
+    }
+
+    .letter {
+      opacity: 0;
+      fill: #c084fc;
+      font-size: 36px;
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+    }
+
+    .flower-emoji {
+      opacity: 0;
+      font-size: 28px;
+      fill: #c084fc;
+      animation: fadeIn 0.5s ease forwards;
+      animation-delay: 18s;
+      transform-origin: center;
+    }
+
+    .floating {
+      animation: float 4s ease-in-out infinite;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    @keyframes draw {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes drawLine {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+
+    .emoji-rain {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      animation: rain 10s linear infinite;
+    }
+
+    @keyframes rain {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100%); }
+    }
+
+    .emoji {
+      position: absolute;
+      font-size: 24px;
+      animation: fall 5s linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(100vh); }
+    }
+
+    @media (max-width: 500px) {
+      text {
+        font-size: 28px;
+        stroke-width: 1.2;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="emoji-rain">
+  <span class="emoji" style="left: 10%; animation-delay: 0s;">🌸</span>
+  <span class="emoji" style="left: 20%; animation-delay: 1s;">🌼</span>
+  <span class="emoji" style="left: 30%; animation-delay: 2s;">✨</span>
+  <span class="emoji" style="left: 40%; animation-delay: 3s;">🌺</span>
+  <span class="emoji" style="left: 50%; animation-delay: 4s;">🌷</span>
+  <span class="emoji" style="left: 60%; animation-delay: 5s;">💐</span>
+  <span class="emoji" style="left: 70%; animation-delay: 6s;">💮</span>
+  <span class="emoji" style="left: 80%; animation-delay: 7s;">🌼</span>
+  <span class="emoji" style="left: 90%; animation-delay: 8s;">🐢</span>
+</div>
+
+<svg viewBox="0 0 600 600">
+  <!-- Rosa principal -->
+  <g id="rose-group">
+    <path id="rose" class="rose-path" />
+  </g>
+
+  <!-- Path para el nombre "Dayanna" -->
+  <path id="name-path" d="M100,520 C150,480 250,480 300,520 C350,560 450,560 500,520" class="name-path" />
+  
+  <!-- Letras individuales -->
+  <text class="letter" id="letter-D" style="animation: fadeIn 0.5s ease forwards; animation-delay: 10s;">
+    <textPath href="#name-path" startOffset="0%">D</textPath>
+  </text>
+  <text class="letter" id="letter-a1" style="animation: fadeIn 0.5s ease forwards; animation-delay: 10.5s;">
+    <textPath href="#name-path" startOffset="10%">a</textPath>
+  </text>
+  <text class="letter" id="letter-y" style="animation: fadeIn 0.5s ease forwards; animation-delay: 11s;">
+    <textPath href="#name-path" startOffset="20%">y</textPath>
+  </text>
+  <text class="letter" id="letter-a2" style="animation: fadeIn 0.5s ease forwards; animation-delay: 11.5s;">
+    <textPath href="#name-path" startOffset="30%">a</textPath>
+  </text>
+  <text class="letter" id="letter-n1" style="animation: fadeIn 0.5s ease forwards; animation-delay: 12s;">
+    <textPath href="#name-path" startOffset="40%">n</textPath>
+  </text>
+  <text class="letter" id="letter-n2" style="animation: fadeIn 0.5s ease forwards; animation-delay: 12.5s;">
+    <textPath href="#name-path" startOffset="50%">n</textPath>
+  </text>
+  <text class="letter" id="letter-a3" style="animation: fadeIn 0.5s ease forwards; animation-delay: 13s;">
+    <textPath href="#name-path" startOffset="60%">a</textPath>
+  </text>
+
+  <!-- Línea debajo del nombre -->
+  <path id="line-path" d="M100,540 C150,500 250,500 300,540 C350,580 450,580 500,540" class="line-path" />
+  
+  <!-- Emoji de flor al final de la línea - POSICIÓN CORREGIDA -->
+  <text x="510" y="545" class="flower-emoji" text-anchor="middle">🌸</text>
+</svg>
+
+<script>
+  const path = document.getElementById("rose");
+  const group = document.getElementById("rose-group");
+
+  const a = 100;
+  const k = 4;
+  const cx = 300, cy = 250;
+  const steps = 1000;
+  const points = [];
+
+  for (let i = 0; i <= steps; i++) {
+    const theta = (Math.PI * 2 * i) / steps;
+    const r = a * Math.sin(k * theta);
+    const x = cx + r * Math.cos(theta);
+    const y = cy + r * Math.sin(theta);
+    points.push([x, y]);
+  }
+
+  let d = `M ${points[0][0]},${points[0][1]}`;
+  for (let i = 1; i < points.length; i++) {
+    d += ` L ${points[i][0]},${points[i][1]}`;
+  }
+
+  // Asigna la forma a la rosa principal
+  path.setAttribute("d", d);
+
+  // Agrega movimiento suave cuando termine la flor principal
+  setTimeout(() => {
+    group.classList.add('floating');
+  }, 20000);
+
+  // Hacer clic en la flor principal abre otra página
+  group.addEventListener("click", () => {
+    window.location.href = "final.html";
+  });
+
+  group.style.cursor = "pointer";
+</script>
+
+</body>
+</html>

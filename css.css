@@ -1,0 +1,9 @@
+@keyframes float {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05); /* antes era 1.015 */
+    }
+  }
+  

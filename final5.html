@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Una última cosita...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: linear-gradient(to bottom, #e9d5ff, #f5e9ff);
+      color: #5b21b6;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      min-height: 100vh;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .card {
+      background-color: #ede9fe;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 12px #c084fc;
+      color: #4c1d95;
+      max-width: 500px;
+      width: 100%;
+      margin-bottom: 2rem;
+      animation: fadeIn 2s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hidden-letter {
+      display: none;
+      margin-top: 1.5rem;
+      background-color: #f3e8ff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px #d8b4fe;
+      color: #5b21b6;
+      animation: fadeIn 1s ease;
+    }
+
+    h1 {
+      color: #7e22ce;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      color: #9333ea;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+
+    input {
+      margin-top: 1rem;
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      background-color: #c084fc;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #a855f7;
+    }
+
+    .error {
+      margin-top: 1rem;
+      color: #dc2626;
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .emoji {
+      position: absolute;
+      font-size: 24px;
+      animation: floatUp linear infinite;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+      .emoji {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mensaje principal -->
+  <div class="card">
+    <h1>Ya sabes✨</h1>
+    <p>
+Si un día no estoy, nunca dejes de soñar bonito.<br>
+Y si alguna vez dudas, recuerda que<br>
+hasta las estrellas se guían por la luz de alguien como tú.<br>
+      <br>
+      8/may/2025
+    </p>
+  </div>
+
+  <!-- Desbloqueo de carta secreta -->
+  <div class="card">
+    <h1>¿Una última sorpresa?</h1>
+    <p>Si descubres la palabra secreta podrás ver algo más que te escribí</p>
+
+    <input type="text" id="clave" placeholder="Ingresa la clave secreta"><br>
+    <button onclick="verificarClave()">Desbloquear</button>
+    <div class="error" id="errorMsg"></div>
+
+    <!-- Carta 1 -->
+    <div class="hidden-letter" id="cartaSecreta">
+      <h2>La verdad</h2>
+      <p>
+        Puede que nos conociéramos por accidente,  
+        pero cada charla contigo me hace sonreír.  
+        Me la paso muy bien hablando contigo y eso no lo cambio por nada. 
+        <br><br>
+        La verdad no tengo planeado decir mucho más, y solo recuerdo que el primer día te 
+        quería batear y ahora me estoy enamorando poco a poco de ti.
+        <br><br>
+        Eso sonó algo atrevido pero solo te estoy diciendo una verdad.
+        <br><br>
+        —Con cariño, alguien que te piensa más de lo que imaginas 
+      </p>
+    </div>
+
+    <!-- Carta 2 -->
+    <div class="hidden-letter" id="cartaExtra">
+      <h2>Un secreto más...</h2>
+      <p>
+        A veces me pregunto si te das cuenta del efecto que tienes sobre mí.  
+        No sé qué vaya a pasar, pero por ahora... estoy feliz de que existas en mi vida.  
+        <br><br>
+        —El rarito (con corazón de poeta, parece)
+      </p>
+    </div>
+  </div>
+
+  <!-- Emojis flotando -->
+  <script>
+    function verificarClave() {
+      const clave = document.getElementById("clave").value.trim().toLowerCase();
+      const carta1 = document.getElementById("cartaSecreta");
+      const carta2 = document.getElementById("cartaExtra");
+      const error = document.getElementById("errorMsg");
+
+      carta1.style.display = "none";
+      carta2.style.display = "none";
+      error.textContent = "";
+
+      if (clave === "sipirilipi") {
+        carta1.style.display = "block";
+      } else if (clave === "noporolopo") {
+        carta2.style.display = "block";
+      } else {
+        error.textContent = "Ups... esa no es la clave correcta";
+      }
+    }
+
+    const emojis = ["🌸", "🌺", "💮", "🌷"];
+    const cantidad = 25;
+
+    for (let i = 0; i < cantidad; i++) {
+      const emoji = document.createElement("div");
+      emoji.classList.add("emoji");
+      emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+      emoji.style.left = Math.random() * 100 + "vw";
+      emoji.style.animationDuration = (4 + Math.random() * 6) + "s";
+      emoji.style.fontSize = (18 + Math.random() * 12) + "px";
+      document.body.appendChild(emoji);
+    }
+  </script>
+</body>
+</html>

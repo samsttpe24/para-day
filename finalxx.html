@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Una última cosita...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: linear-gradient(to bottom, #e9d5ff, #f5e9ff);
+      color: #5b21b6;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      min-height: 100vh;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .card {
+      background-color: #ede9fe;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 12px #c084fc;
+      color: #4c1d95;
+      max-width: 500px;
+      width: 100%;
+      margin-bottom: 2rem;
+      animation: fadeIn 2s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hidden-letter {
+      display: none;
+      margin-top: 1.5rem;
+      background-color: #f3e8ff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px #d8b4fe;
+      color: #5b21b6;
+      animation: fadeIn 1s ease;
+    }
+
+    h1 {
+      color: #7e22ce;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      color: #9333ea;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+
+    input {
+      margin-top: 1rem;
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      background-color: #c084fc;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #a855f7;
+    }
+
+    .error {
+      margin-top: 1rem;
+      color: #dc2626;
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .emoji {
+      position: absolute;
+      font-size: 24px;
+      animation: floatUp linear infinite;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+      .emoji {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mensaje principal -->
+  <div class="card">
+    <h1>sorry</h1>
+    <p>
+  mantenimiento (no se que poner)<br>
+  jsjsjsjjs <br>
+        25/may/2025
+    </p>
+  </div>
+
+  <!-- Desbloqueo de carta secreta -->
+  <div class="card">
+    <h1>lo prometes? </h1>
+    <p>???????????? </p>
+
+    <input type="text" id="clave" placeholder="(lo prometo)"><br>
+    <button onclick="verificarClave()">Desbloquear</button>
+    <div class="error" id="errorMsg"></div>
+
+    <!-- Carta 1 -->
+    <div class="hidden-letter" id="cartaSecreta">
+      <h2>¿?</h2>
+      <p>
+     quieres que te lo diga con filtro o sin filtro?<br>
+     colocar en barra de claves: "con" o "sin"<br>
+    </div>
+
+    <!-- Carta 2 -->
+    <div class="hidden-letter" id="cartaExtra">
+      <h2>***</h2>
+      <p>
+        que no se que poner!!
+      </p>
+    </div>
+  </div>
+    <!-- Carta 2 -->
+    <div class="hidden-letter" id="carta3">
+        <h2>Alomejor me arrepiento..</h2>
+        <p>
+            Hoy es un día especial porque el mundo celebra tu existencia. <br>
+            Feliz cumpleaños Dayanna.
+            
+            No quería dejar pasar esta fecha sin decirte lo mucho que admiro 
+            <br>la persona que eres. 
+            <br>Tienes una forma de estar en el mundo que me encanta.<br><br>
+            
+            Aunque no somos nada “oficial”, no puedo negar que me encantaría 
+           <br> seguir compartiendo más momentos contigo, conociéndote mejor 
+           <br>y descubriendo las pequeñas cosas que te hacen sonreír.
+           <br> Estar cerca de ti, incluso en lo simple, ya es especial para mí.<br>
+<br>
+            
+            no se si tu sientas algo por mi,pero yo luchare por ti cueste lo que cueste.<br>
+            porque sabes.. hace un año prometi no volver a enamorarme y luego llegaste tu y eso ya significa algo. <br><br>
+            
+            Hoy deseo que tu día esté lleno de alegría, de cariño sincero <br>y de todo aquello que te hace bien. <br>
+            Y si en algún momento del día esta carta logra sacarte una sonrisa,<br> entonces ya habré sido parte de tu cumpleaños de la forma más bonita que conozco. <br>
+            <br>
+            Con cariño (y un poquito más), Samuel :)
+        </p>
+      </div>
+    </div>
+  
+
+  <!-- Emojis flotando -->
+  <script>
+    function verificarClave() {
+      const clave = document.getElementById("clave").value.trim().toLowerCase();
+      const carta1 = document.getElementById("cartaSecreta");
+      const carta2 = document.getElementById("cartaExtra");
+      const carta = document.getElementById("carta3");
+      const error = document.getElementById("errorMsg");
+
+      carta1.style.display = "none";
+      carta2.style.display = "none";
+      carta3.style.display = "none";
+      error.textContent = "";
+
+      if (clave === "lo prometo") {
+        carta1.style.display = "block";
+      } else if (clave === "con") {
+        carta2.style.display = "block";
+    } else if (clave === "sin") {
+        carta3.style.display = "block";
+      } else {
+        error.textContent = "Ups... esa no es la clave correcta";
+      }
+    }
+
+    const emojis = ["🌸", "🌺", "💮", "🌷"];
+    const cantidad = 25;
+
+    for (let i = 0; i < cantidad; i++) {
+      const emoji = document.createElement("div");
+      emoji.classList.add("emoji");
+      emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+      emoji.style.left = Math.random() * 100 + "vw";
+      emoji.style.animationDuration = (4 + Math.random() * 6) + "s";
+      emoji.style.fontSize = (18 + Math.random() * 12) + "px";
+      document.body.appendChild(emoji);
+    }
+  </script>
+</body>
+</html>
