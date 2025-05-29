@@ -1,0 +1,113 @@
+/* Estilos generales */
+body {
+    background-color: rgb(104, 255, 98);
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+}
+
+/* Encabezados */
+h1 {
+    background-color: darkslateblue;
+    color: whitesmoke;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 2.5rem; /* Tamaño dinámico */
+    padding: 20px;
+    text-align: center;
+}
+
+h3 {
+    font-family: Arial, Helvetica, sans-serif;
+    color: whitesmoke;
+    background-color: green;
+    font-size: 1.8rem;
+    padding: 15px;
+    text-align: center;
+}
+
+h4 {
+    font-size: 1.5rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Párrafos */
+p {
+    font-size: 1.1rem;
+    margin: 15px;
+}
+
+/* Navegación */
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: black;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: white;
+}
+
+/* Main container */
+main {
+    background-color: rgb(104, 255, 98);
+    text-align: center;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    background-color: rgb(104, 255, 98);
+    padding: 20px;
+}
+
+/* 🌟 Media query para móviles */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+        padding: 15px;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        padding: 10px;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    nav ul {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+        display: block;
+    }
+
+    nav ul li a {
+        font-size: 1.1rem;
+    }
+
+    main {
+        padding: 15px;
+    }
+}
