@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="icon" type="image/png" href="flor.png">
+
   <title>de mi para ti</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
@@ -108,27 +109,40 @@
       }
     }
 
-    .emoji-container {
-      position: fixed;
-      bottom: 0;
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+
+    .emoji-rain {
+      position: absolute;
+      top: 0;
       left: 0;
-      width: 100vw;
-      height: 50vh;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
-      overflow: visible;
       z-index: 0;
-      background: rgba(255,255,255,0.07);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      animation: rain 10s linear infinite;
+    }
+
+    @keyframes rain {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100%); }
     }
 
     .emoji {
       position: absolute;
-      font-size: 28px;
-      will-change: transform;
-      user-select: none;
-      text-shadow: 0 0 4px rgba(0,0,0,0.15);
-      touch-action: none;
+      font-size: 24px;
+      animation: fall 5s linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(100vh); }
     }
 
     @media (max-width: 500px) {
@@ -141,8 +155,17 @@
 </head>
 <body>
 
-<!-- Emojis animados con colisión -->
-<div class="emoji-container" id="emoji-container" aria-hidden="true"></div>
+<div class="emoji-rain">
+  <span class="emoji" style="left: 10%; animation-delay: 0s;">🌸</span>
+  <span class="emoji" style="left: 20%; animation-delay: 1s;">🌼</span>
+  <span class="emoji" style="left: 30%; animation-delay: 2s;">✨</span>
+  <span class="emoji" style="left: 40%; animation-delay: 3s;">🌺</span>
+  <span class="emoji" style="left: 50%; animation-delay: 4s;">🌷</span>
+  <span class="emoji" style="left: 60%; animation-delay: 5s;">💐</span>
+  <span class="emoji" style="left: 70%; animation-delay: 6s;">💮</span>
+  <span class="emoji" style="left: 80%; animation-delay: 7s;">🌼</span>
+  <span class="emoji" style="left: 90%; animation-delay: 8s;">🐢</span>
+</div>
 
 <svg viewBox="0 0 600 600">
   <!-- Rosa principal -->
@@ -152,7 +175,7 @@
 
   <!-- Path para el nombre "Dayanna" -->
   <path id="name-path" d="M100,520 C150,480 250,480 300,520 C350,560 450,560 500,520" class="name-path" />
-
+  
   <!-- Letras individuales -->
   <text class="letter" id="letter-D" style="animation: fadeIn 0.5s ease forwards; animation-delay: 10s;">
     <textPath href="#name-path" startOffset="0%">D</textPath>
@@ -178,8 +201,8 @@
 
   <!-- Línea debajo del nombre -->
   <path id="line-path" d="M100,540 C150,500 250,500 300,540 C350,580 450,580 500,540" class="line-path" />
-
-  <!-- Emoji flor -->
+  
+  <!-- Emoji de flor al final de la línea - POSICIÓN CORREGIDA -->
   <text x="510" y="545" class="flower-emoji" text-anchor="middle">🌸</text>
 </svg>
 
@@ -206,111 +229,21 @@
     d += ` L ${points[i][0]},${points[i][1]}`;
   }
 
+  // Asigna la forma a la rosa principal
   path.setAttribute("d", d);
 
+  // Agrega movimiento suave cuando termine la flor principal
   setTimeout(() => {
     group.classList.add('floating');
   }, 20000);
 
+  // Hacer clic en la flor principal abre otra página
   group.addEventListener("click", () => {
     window.location.href = "final.html";
   });
 
   group.style.cursor = "pointer";
-
-  // Emojis animados con colisión
-  const emojiContainer = document.getElementById('emoji-container');
-  const emojisList = ['🌸', '🌼', '✨', '🌺', '🌷', '💐', '💮', '🌼', '🐢'];
-  const emojis = [];
-
-  class Emoji {
-    constructor(char) {
-      this.char = char;
-      this.size = 28 + Math.random() * 14;
-      this.x = Math.random() * (window.innerWidth - this.size);
-      this.y = Math.random() * (window.innerHeight * 0.5 - this.size);
-      this.vx = (Math.random() - 0.5) * 0.6;
-      this.vy = 0.5 + Math.random() * 0.8;
-      this.element = document.createElement('span');
-      this.element.classList.add('emoji');
-      this.element.style.fontSize = `${this.size}px`;
-      this.element.textContent = char;
-      emojiContainer.appendChild(this.element);
-    }
-
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
-
-      if (this.x <= 0 || this.x + this.size >= window.innerWidth) {
-        this.vx *= -1;
-      }
-
-      const maxY = window.innerHeight * 0.5 - this.size;
-      if (this.y >= maxY) {
-        this.y = maxY;
-        this.vy *= -0.6;
-        if (Math.abs(this.vy) < 0.2) this.vy = 0;
-      } else {
-        this.vy += 0.04;
-      }
-
-      this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
-    }
-  }
-
-  emojisList.forEach(char => {
-    for (let i = 0; i < 6; i++) {
-      emojis.push(new Emoji(char));
-    }
-  });
-
-  function resolveCollisions() {
-    for (let i = 0; i < emojis.length; i++) {
-      for (let j = i + 1; j < emojis.length; j++) {
-        const a = emojis[i], b = emojis[j];
-        const dx = (a.x + a.size/2) - (b.x + b.size/2);
-        const dy = (a.y + a.size/2) - (b.y + b.size/2);
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const minDist = (a.size + b.size) / 2 * 0.85;
-
-        if (dist < minDist && dist > 0) {
-          const overlap = minDist - dist;
-          const nx = dx / dist;
-          const ny = dy / dist;
-
-          a.x += nx * overlap * 0.5;
-          a.y += ny * overlap * 0.5;
-          b.x -= nx * overlap * 0.5;
-          b.y -= ny * overlap * 0.5;
-
-          [a.vx, b.vx] = [b.vx, a.vx];
-          [a.vy, b.vy] = [b.vy, a.vy];
-        }
-      }
-    }
-  }
-
-  function animate() {
-    emojis.forEach(e => e.update());
-    resolveCollisions();
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  let tiltX = 0;
-  window.addEventListener('deviceorientation', e => {
-    tiltX = e.gamma || 0;
-  });
-
-  setInterval(() => {
-    emojis.forEach(e => {
-      e.vx += (tiltX / 90) * 0.05;
-      e.vx = Math.max(-1.2, Math.min(1.2, e.vx));
-    });
-  }, 100);
 </script>
 
 </body>
 </html>
-
