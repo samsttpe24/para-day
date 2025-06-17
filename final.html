@@ -193,8 +193,164 @@ Te pienso, te extraño, y cada vez más valoro lo que somos y lo que aún podrí
     </p>
     </div>
 
+    <style>
+      body { font-family: Arial, sans-serif; background: #f3eafc; color: #3b1054; }
+      #chat { max-width: 500px; margin: 20px auto; background: #eee; padding: 15px; border-radius: 10px; }
+      #messages { height: 300px; overflow-y: auto; background: #fff; padding: 10px; border-radius: 8px; margin-bottom: 10px; }
+      .message { margin-bottom: 10px; }
+      .user { color: #4a148c; }
+      .bot { color: #7b1fa2; }
+      input[type="text"] { width: 80%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; }
+      button { padding: 10px 15px; border: none; border-radius: 8px; background: #7b1fa2; color: white; cursor: pointer; }
+    </style>
+    </head>
+    <body>
+      <div class="card">
+        <div id="messages"></div>
+        <input type="text" id="userInput" placeholder="Pregunta algo..." autocomplete="off" />
+        <button onclick="handleUserInput()">Enviar</button>
+      </div>
+    </div>
+    <script>
+    // Lista completa con keywords para detectar variaciones y respuestas fieles a ti
+    const responses = [
+      { keywords: ["extrañ"], response: "Sí, y más de lo que se nota, pies." },
+      { keywords: ["abrazar", "abrazo"], response: "Sí, y fuerte... de esos abrazos que hacen que se te olvide todo." },
+      { keywords: ["gustas", "gusto", "gusta"], response: "¿Tú? Pies claro que sí... Si pudiera ya seríamos algo." },
+      { keywords: ["piens"], response: "Pies sí, a veces sin querer... y otras con muchas ganas." },
+      { keywords: ["celos", "celoso"], response: "Pies un poquito, pero nomás cuando alguien más te hace reír." },
+      { keywords: ["tímid"], response: "Pies sí, un poco... pero tú me haces salir del cascarón." },
+      { keywords: ["quieres", "quiero", "querer"], response: "Más de lo que a veces muestro, pies soy medio mensito emocional." },
+      { keywords: ["verme", "ver"], response: "Sí, más de lo que imaginas." },
+      { keywords: ["pienso en mí", "piensas en mí", "piensas de mí"], response: "Eres linda y me caes re bien, no hay más." },
+      { keywords: ["feliz"], response: "Sí, cuando hablo contigo me siento bien." },
+      { keywords: ["salir"], response: "Si pudiera ya estaríamos planeando la cita." },
+      { keywords: ["beso", "besar"], response: "Si me dejaras, pies sí." },
+      { keywords: ["sonrisa", "risa"], response: "Me derrito cuando sonríes." },
+      { keywords: ["nervios", "nervioso"], response: "Como examen sorpresa, pero me gusta." },
+      { keywords: ["visitar", "visita"], response: "Sí, cuando puedas." },
+      { keywords: ["importas", "importa", "me importas"], response: "Más de lo que te imaginas, solo que a veces no sé cómo decirlo." },
+      { keywords: ["especial"], response: "Sí, mucho, y por eso hice esto para ti." },
+      { keywords: ["felicidad"], response: "Sí, me haces feliz más de lo que imaginas." },
+      { keywords: ["contigo"], response: "Pies sí quiero estar contigo." },
+      { keywords: ["carino", "cariño"], response: "Más de lo que digo, pero mucho." },
+      { keywords: ["confianza"], response: "Confío en ti y me siento cómodo contigo." },
+      { keywords: ["amistad"], response: "Me caes re bien, pies eres alguien especial para mí." },
+      { keywords: ["esperanza"], response: "Espero que esto crezca bonito, pies." },
+      { keywords: ["nervioso"], response: "Sí, pero solo cuando hablamos tú y yo." },
+      { keywords: ["pensarte"], response: "Pienso en ti a cada rato." },
+      { keywords: ["cariño"], response: "Claro, mucho cariño para ti." },
+      { keywords: ["abrazo"], response: "Siempre quiero abrazarte fuerte." },
+      { keywords: ["preguntas"], response: "Pregúntame lo que quieras, pies." },
+      { keywords: ["dormir", "duerme bonito"], response: "Claro, siempre te deseo que duermas bonito." },
+      { keywords: ["tú", "ti"], response: "Me encantas, pies." },
+      { keywords: ["linda","bonita"], response: "Eres linda (mucho), no hay más que decir." },
+      { keywords: ["extraño"], response: "Sí, y más de lo que imaginas." },
+      { keywords: ["sentimientos"], response: "Tengo muchos y todos bonitos contigo." },
+      { keywords: ["amor"], response: "Pies si pudiera ya te diría que sí." },
+      { keywords: ["broma", "humor"], response: "Me gusta hacerte reír, eso me alegra." },
+      { keywords: ["miedo"], response: "Solo miedo a perder lo bonito que hay entre nosotros." },
+      { keywords: ["hablar"], response: "Me encanta hablar contigo, pies." },
+      { keywords: ["cariñoso"], response: "Soy más cariñoso cuando hablo contigo." },
+      { keywords: ["pienso"], response: "Pienso en ti todo el tiempo." },
+      { keywords: ["esperar"], response: "Espero que todo esto crezca como debe." },
+      { keywords: ["ver"], response: "Me encantaría verte más seguido." },
+      { keywords: ["abrazos"], response: "Mis abrazos siempre están para ti." },
+      { keywords: ["sonrisa"], response: "Tu sonrisa es mi parte favorita del día." },
+      { keywords: ["contigo"], response: "Quiero estar contigo siempre." },
+      { keywords: ["besos"], response: "uyyyy que es esto? jajajaj no se exatamente que preguntaste pero....si" },
+      { keywords: ["escuchar"], response: "Me gusta escucharte siempre." },
+      { keywords: ["esperanza"], response: "Tengo esperanza en nosotros." },
+      { keywords: ["deseo"], response: "Deseo que esto sea real y bonito." },
+      { keywords: ["sueño"], response: "Sueño con que estemos juntos." },
+      { keywords: ["especial"], response: "Eres especial para mí, mucho." },
+      { keywords: ["pensar"], response: "Pienso en ti más de lo que crees." },
+      { keywords: ["preguntar"], response: "Puedes preguntarme lo que quieras." },
+      { keywords: ["extrañar"], response: "Sí, te extraño más de lo que imaginas." },
+      { keywords: ["feliz"], response: "Me haces muy feliz." },
+      { keywords: ["amigo", "amiga"], response: "Eres mi persona favorita." },
+      { keywords: ["hablar contigo"], response: "Me encanta hablar contigo, pies." },
+      { keywords: ["estar contigo"], response: "Quiero estar contigo siempre." },
+      { keywords: ["cariño"], response: "Te tengo mucho cariño." },
+      { keywords: ["contar"], response: "Puedes contar conmigo siempre." },
+      { keywords: ["saber"], response: "Pregúntame lo que quieras saber de mí." },
+      { keywords: ["esperar"], response: "Espero que esto crezca lindo." },
+      { keywords: ["besar"], response: "uyy y esa pregunta ? Si me dejas, pies sí." },
+      { keywords: ["abrazo"], response: "Quiero abrazarte fuerte." },
+      { keywords: ["cariños"], response: "Te mando muchos cariños." },
+      { keywords: ["duerme bonito"], response: "Duerme bonito, pies, te lo deseo siempre." },
+      { keywords: ["gusto"], response: "Me gustas mucho." },
+      { keywords: ["pensar en ti"], response: "No dejo de pensar en ti." },
+      { keywords: ["sonreír"], response: "Tu sonrisa me alegra el día." },
+      { keywords: ["sentir"], response: "Siento algo muy bonito contigo." },
+      { keywords: ["esperanza"], response: "Tengo esperanza en nosotros." },
+      { keywords: ["feliz"], response: "Contigo soy feliz." },
+      { keywords: ["querer"], response: "Te quiero mucho." },
+      { keywords: ["preguntar"], response: "Pregúntame lo que quieras, pies." },
+      { keywords: ["hablar"], response: "Me encanta hablar contigo." },
+      { keywords: ["contigo"], response: "Quiero estar contigo." },
+      { keywords: ["besos"], response: "Me encantaría darte un beso." },
+      { keywords: ["abrazos"], response: "Mis abrazos siempre para ti." },
+      { keywords: ["linda","bonita"], response: "Eres linda y me caes re bien." },
+      { keywords: ["nervioso"], response: "Sí, cuando estoy contigo." },
+      { keywords: ["importar"], response: "Me importas mucho." },
+      { keywords: ["felicidad"], response: "Me haces feliz." },
+      { keywords: ["visitar"], response: "Quiero verte pronto." },
+      { keywords: ["dormir"], response: "Duerme bonito, pies." },
+      { keywords: ["humor"], response: "Me gusta hacerte reír auque no sepa si lo hago." },
+      { keywords: ["miedo"], response: "Tengo miedo de perderte." },
+      { keywords: ["contigo"], response: "Me gusta estar contigo.A la distancia" },
+      { keywords: ["que somos"], response: "no se.. tu dimelo" },
+      { keywords: ["no somos nada", "no somos algo", "por que no somos nada", "por que no somos algo", "no somos juntos"], 
+    response: "Pies, si pudiera ya seríamos algo bonito, pero a veces hay que esperar el momento perfecto." },
+  { keywords: ["por que no", "porque no", "porqué no", "por qué no"], 
+    response: "Pies, a veces las cosas toman tiempo, pero en mi corazón ya estás." },
+    { keywords: ["ser mi novio","puedo ser tu novia"], response: "si preguntaste lo que creo que preguntaste... diria que.. si" },
+      
+    ];
+    
+    // Función para normalizar texto (minúsculas, sin signos)
+    function normalize(text) {
+      return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, "");
+    }
+    
+    function handleUserInput() {
+      const inputBox = document.getElementById("userInput");
+      const userText = inputBox.value.trim();
+      if (!userText) return;
+      addMessage(userText, "user");
+      inputBox.value = "";
+    
+      const response = findResponse(userText);
+      addMessage(response, "bot");
+    }
+    
+    function findResponse(text) {
+      const normText = normalize(text);
+      for (const entry of responses) {
+        for (const keyword of entry.keywords) {
+          if (normText.includes(keyword)) {
+            return entry.response;
+          }
+        }
+      }
+      return "Pies no entendí bien, preguntame algo que quieras saber sobre lo que siento por ti";
+    }
+    
+    function addMessage(text, sender) {
+      const messagesDiv = document.getElementById("messages");
+      const messageElem = document.createElement("div");
+      messageElem.classList.add("message", sender);
+      messageElem.textContent = (sender === "user" ? "Tú: " : "samuel: ") + text;
+      messagesDiv.appendChild(messageElem);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+    
+    // Mensaje de bienvenida
+    addMessage("Hola, pregúntame algo que quieras saber sobre lo que siento por ti (si esta contesto),Aveces las respuestas como que no tienen nada que ver asi que cuidado. hay como 100 preguntas para encontrar unas mas faciles que otras. Si una pregunta no esta pero crees que si solo replanttea la pregunta o escribela bien ", "bot");
+    </script>
+    </body>
 
-  <!-- Mensaje principal -->
   
   
 
