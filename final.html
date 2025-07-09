@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="flor.png">
+  <title>Una última cosita...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url('fondo1.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      font-family: 'Poppins', sans-serif;
+      color: #4c1d95;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    h1, h2 {
+      font-family: 'Dancing Script', cursive;
+      color: #9333ea;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 5px rgba(255,255,255,0.7);
+    }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #5b21b6;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 1.8rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      max-width: 600px;
+      width: 100%;
+      margin: 1.5rem 0;
+      animation: fadeInZoom 1.2s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes fadeInZoom {
+      from { opacity: 0; transform: scale(0.95) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .love-button {
+      background: linear-gradient(45deg, #d291ff, #b88de0);
+      color: white;
+      padding: 12px 25px;
+      font-family: 'Dancing Script', cursive;
+      border-radius: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      text-decoration: none;
+    }
+
+    .love-button:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .hidden-letter {
+      display: none;
+      background-color: #f3e8ff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px #d8b4fe;
+      margin-top: 1rem;
+      animation: fadeInZoom 1s ease;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 1rem;
+      width: 80%;
+    }
+
+    button {
+      background-color: #c084fc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #a855f7;
+    }
+
+    #messages {
+      background: #fff;
+      border-radius: 8px;
+      padding: 10px;
+      height: 250px;
+      overflow-y: auto;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .message {
+      margin-bottom: 10px;
+    }
+
+    .user {
+      color: #6d28d9;
+      font-weight: bold;
+    }
+
+    .bot {
+      color: #7c3aed;
+    }
+
+    .emoji {
+      position: absolute;
+      font-size: 24px;
+      animation: floatUp linear infinite;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(1); opacity: 0.5; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+    .rojo{color: red;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif}
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>🌸 Algo pequeño que decirte</h1>
+    <p>Cuando no te busco es porque no pude, no porque no quisiera...</p>
+  </div>
+
+  <div class="card">
+    <h1>💌 Una versión rara</h1>
+    <p>mantenimiento..</p>
+  </div>
+
+  <div class="card">
+    <h1>🌷 Un recuerdo</h1>
+    <p>¿Te acuerdas de la primera página? <br><a href="x.html" class="love-button">Visitar</a></p>
+  </div>
+
+  <div class="card"><p class="red">No usar</p>
+    <div id="messages"></div>
+    <input type="text" id="userInput" placeholder="Pregunta algo...">
+    <button onclick="handleUserInput()">Enviar</button>
+  </div>
+
+  <div class="card">
+    <h1>🔑 Desbloqueo secreto</h1>
+    <input type="text" id="clave" placeholder="(algo que digo mucho)"><br>
+    <button onclick="verificarClave()">Desbloquear</button>
+    <div class="error" id="errorMsg"></div>
+
+    <div class="hidden-letter" id="cartaSecreta"><p>la verdad creo que no hay nadaque no te haya dicho, han sido 3 meses en los que te eh conocido, eh hablado de mas y me eh estado enamorando (eso es hablar de mas).No sé cómo explicarlo, pero desde que apareciste, incluso los días más simples tienen algo bonito. Es como si tu existencia le pusiera magia a lo cotidiano.</p></div>
+    <div class="hidden-letter" id="cartaExtra"><p>ultimamente te siento diferente y ya te lo eh dicho,no se alomejor ya no quieres nada conmigo y lo entenderia, cuando no tenias telefono fueron dos semanas en las que pudieron pasar y cambiar muchas cosas y si es asi solo dime. <br><br> cambiando de cosas y si no es asi y ya me estoy volviendo loco serias la razón por la que ya no creo en el ‘solo amigos’. <br> ¿Quieres que deje de jugar y pasemos a cosas más serias? bueno no se jaja ja aveces sinto que me voy arrepentir de escribir estas cosas.</p></div></div>
+    <div class="hidden-letter" id="carta3"><p>si tu crees que hay alguien mas que te llegue a hacer feliz sin dudarlo te diria que te fueras con el porque no se si te pueda ofrecer mucho asi que ya no seguiria leyendo. pero si no es asi...<br><br>asi que cambiando de tema <br> Quería tomar un momento para decirte que desde que te conozco, he admirado la forma en que eres: auténtica, fuerte y con una luz que no pasa desapercibida. No es solo tu presencia, sino la esencia que transmites, lo que me ha dejado pensando en lo valioso que sería compartir más momentos contigo.
+
+      No sé qué caminos nos esperan, pero sí sé que me gustaría descubrirlos a tu lado, sin prisas y con la sinceridad que merecen las cosas importantes.
+      
+      Solo quería que lo supieras, sin presiones, pero con toda la intención.</p></div>
+  </div>
+
+ <script>
+    // Lista completa con keywords para detectar variaciones y respuestas fieles a ti
+    const responses = [
+      { keywords: ["extrañ"], response: "Sí, y más de lo que se nota, pies." },
+      { keywords: ["abrazar", "abrazo"], response: "Sí, y fuerte... de esos abrazos que hacen que se te olvide todo." },
+      { keywords: ["gustas", "gusto", "gusta"], response: "¿Tú? Pies claro que sí... Si pudiera ya seríamos algo." },
+      { keywords: ["piens"], response: "Pies sí, a veces sin querer... y otras con muchas ganas." },
+      { keywords: ["celos", "celoso"], response: "Pies un poquito, pero nomás cuando alguien más te hace reír." },
+      { keywords: ["tímid"], response: "Pies sí, un poco... pero tú me haces salir del cascarón." },
+      { keywords: ["quieres", "quiero", "querer"], response: "Más de lo que a veces muestro, pies soy medio mensito emocional." },
+      { keywords: ["verme", "ver"], response: "Sí, más de lo que imaginas." },
+      { keywords: ["pienso en mí", "piensas en mí", "piensas de mí"], response: "Eres linda y me caes re bien, no hay más." },
+      { keywords: ["feliz"], response: "Sí, cuando hablo contigo me siento bien." },
+      { keywords: ["salir"], response: "Si pudiera ya estaríamos planeando la cita." },
+      { keywords: ["beso", "besar"], response: "Si me dejaras, pies sí." },
+      { keywords: ["sonrisa", "risa"], response: "Me derrito cuando sonríes." },
+      { keywords: ["nervios", "nervioso"], response: "Como examen sorpresa, pero me gusta." },
+      { keywords: ["visitar", "visita"], response: "Sí, cuando puedas." },
+      { keywords: ["importas", "importa", "me importas"], response: "Más de lo que te imaginas, solo que a veces no sé cómo decirlo." },
+      { keywords: ["especial"], response: "Sí, mucho, y por eso hice esto para ti." },
+      { keywords: ["felicidad"], response: "Sí, me haces feliz más de lo que imaginas." },
+      { keywords: ["contigo"], response: "Pies sí quiero estar contigo." },
+      { keywords: ["carino", "cariño"], response: "Más de lo que digo, pero mucho." },
+      { keywords: ["confianza"], response: "Confío en ti y me siento cómodo contigo." },
+      { keywords: ["amistad"], response: "Me caes re bien, pies eres alguien especial para mí." },
+      { keywords: ["esperanza"], response: "Espero que esto crezca bonito, pies." },
+      { keywords: ["nervioso"], response: "Sí, pero solo cuando hablamos tú y yo." },
+      { keywords: ["pensarte"], response: "Pienso en ti a cada rato." },
+      { keywords: ["cariño"], response: "Claro, mucho cariño para ti." },
+      { keywords: ["abrazo"], response: "Siempre quiero abrazarte fuerte." },
+      { keywords: ["preguntas"], response: "Pregúntame lo que quieras, pies." },
+      { keywords: ["dormir", "duerme bonito"], response: "Claro, siempre te deseo que duermas bonito." },
+      { keywords: ["tú", "ti"], response: "Me encantas, pies." },
+      { keywords: ["linda","bonita"], response: "Eres linda (mucho), no hay más que decir." },
+      { keywords: ["extraño"], response: "Sí, y más de lo que imaginas." },
+      { keywords: ["sentimientos"], response: "Tengo muchos y todos bonitos contigo." },
+      { keywords: ["amor"], response: "Pies si pudiera ya te diría que sí." },
+      { keywords: ["broma", "humor"], response: "Me gusta hacerte reír, eso me alegra." },
+      { keywords: ["miedo"], response: "Solo miedo a perder lo bonito que hay entre nosotros." },
+      { keywords: ["hablar"], response: "Me encanta hablar contigo, pies." },
+      { keywords: ["cariñoso"], response: "Soy más cariñoso cuando hablo contigo." },
+      { keywords: ["pienso"], response: "Pienso en ti todo el tiempo." },
+      { keywords: ["esperar"], response: "Espero que todo esto crezca como debe." },
+      { keywords: ["ver"], response: "Me encantaría verte más seguido." },
+      { keywords: ["abrazos"], response: "Mis abrazos siempre están para ti." },
+      { keywords: ["sonrisa"], response: "Tu sonrisa es mi parte favorita del día." },
+      { keywords: ["contigo"], response: "Quiero estar contigo siempre." },
+      { keywords: ["besos","besarte"], response: "uyyyy que es esto? jajajaj no se exatamente que preguntaste pero....si" },
+      { keywords: ["escuchar"], response: "Me gusta escucharte siempre." },
+      { keywords: ["esperanza"], response: "Tengo esperanza en nosotros." },
+      { keywords: ["deseo"], response: "Deseo que esto sea real y bonito." },
+      { keywords: ["sueño"], response: "Sueño con que estemos juntos." },
+      { keywords: ["especial"], response: "Eres especial para mí, mucho." },
+      { keywords: ["pensar"], response: "Pienso en ti más de lo que crees." },
+      { keywords: ["preguntar"], response: "Puedes preguntarme lo que quieras." },
+      { keywords: ["extrañar"], response: "Sí, te extraño más de lo que imaginas." },
+      { keywords: ["feliz"], response: "Me haces muy feliz." },
+      { keywords: ["amigo", "amiga"], response: "Eres mi persona favorita." },
+      { keywords: ["hablar contigo"], response: "Me encanta hablar contigo, pies." },
+      { keywords: ["estar contigo"], response: "Quiero estar contigo siempre." },
+      { keywords: ["cariño"], response: "Te tengo mucho cariño." },
+      { keywords: ["contar"], response: "Puedes contar conmigo siempre." },
+      { keywords: ["saber"], response: "Pregúntame lo que quieras saber de mí." },
+      { keywords: ["esperar"], response: "Espero que esto crezca lindo." },
+      { keywords: ["besar"], response: "uyy y esa pregunta ? Si me dejas, pies sí." },
+      { keywords: ["abrazo"], response: "Quiero abrazarte fuerte." },
+      { keywords: ["cariños"], response: "Te mando muchos cariños." },
+      { keywords: ["duerme bonito"], response: "Duerme bonito, pies, te lo deseo siempre." },
+      { keywords: ["gusto"], response: "Me gustas mucho." },
+      { keywords: ["pensar en ti"], response: "No dejo de pensar en ti." },
+      { keywords: ["sonreír"], response: "Tu sonrisa me alegra el día." },
+      { keywords: ["sentir"], response: "Siento algo muy bonito contigo." },
+      { keywords: ["esperanza"], response: "Tengo esperanza en nosotros." },
+      { keywords: ["feliz"], response: "Contigo soy feliz." },
+      { keywords: ["querer"], response: "Te quiero mucho." },
+      { keywords: ["preguntar"], response: "Pregúntame lo que quieras, pies." },
+      { keywords: ["hablar"], response: "Me encanta hablar contigo." },
+      { keywords: ["contigo"], response: "Quiero estar contigo." },
+      { keywords: ["besos"], response: "Me encantaría darte un beso." },
+      { keywords: ["abrazos"], response: "Mis abrazos siempre para ti." },
+      { keywords: ["linda","bonita"], response: "Eres linda y me caes re bien." },
+      { keywords: ["nervioso"], response: "Sí, cuando estoy contigo." },
+      { keywords: ["importar"], response: "Me importas mucho." },
+      { keywords: ["felicidad"], response: "Me haces feliz." },
+      { keywords: ["visitar"], response: "Quiero verte pronto." },
+      { keywords: ["dormir"], response: "Duerme bonito, pies." },
+      { keywords: ["humor"], response: "Me gusta hacerte reír auque no sepa si lo hago." },
+      { keywords: ["miedo"], response: "Tengo miedo de perderte." },
+      { keywords: ["contigo"], response: "Me gusta estar contigo.A la distancia" },
+      { keywords: ["que somos"], response: "no se.. tu dimelo" },
+      { keywords: ["edad","sea menor"], response: "eso dejo de importar hace mucho" },
+      { keywords: ["no somos nada", "no somos algo", "por que no somos nada", "por que no somos algo", "no somos juntos"], 
+    response: "Pies, si pudiera ya seríamos algo bonito, pero a veces hay que esperar el momento perfecto." },
+  { keywords: ["por que no", "porque no", "porqué no", "por qué no"], 
+    response: "Pues, a veces las cosas toman tiempo, pero en mi corazón ya estás." },
+    { keywords: ["ser mi novio","puedo ser tu novia"], response: "si preguntaste lo que creo que preguntaste... diria que.. si" },
+      
+    ];
+    
+    // Función para normalizar texto (minúsculas, sin signos)
+    function normalize(text) {
+      return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, "");
+    }
+    
+    function handleUserInput() {
+      const inputBox = document.getElementById("userInput");
+      const userText = inputBox.value.trim();
+      if (!userText) return;
+      addMessage(userText, "user");
+      inputBox.value = "";
+    
+      const response = findResponse(userText);
+      addMessage(response, "bot");
+    }
+    
+    function findResponse(text) {
+      const normText = normalize(text);
+      for (const entry of responses) {
+        for (const keyword of entry.keywords) {
+          if (normText.includes(keyword)) {
+            return entry.response;
+          }
+        }
+      }
+      return "no entendí bien, preguntame algo que quieras saber sobre lo que siento por ti";
+    }
+    
+    function addMessage(text, sender) {
+      const messagesDiv = document.getElementById("messages");
+      const messageElem = document.createElement("div");
+      messageElem.classList.add("message", sender);
+      messageElem.textContent = (sender === "user" ? "Tú: " : "samuel: ") + text;
+      messagesDiv.appendChild(messageElem);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+    
+    // Mensaje de bienvenida
+    addMessage("Hola, pregúntame algo que quieras saber sobre lo que siento por ti (si está contesto),Aveces las respuestas como que no tienen nada que ver asi que cuidado(no soy programador jajaja). hay como 100 preguntas para encontrar unas mas faciles que otras. Si una pregunta no esta pero crees que si solo replantea la pregunta o escribela bien ", "bot");
+    </script>
+
+</body>
+
+<script>
+  function verificarClave() {
+    const clave = document.getElementById("clave").value.trim().toLowerCase();
+    const carta1 = document.getElementById("cartaSecreta");
+    const carta2 = document.getElementById("cartaExtra");
+    const carta = document.getElementById("carta3");
+    const error = document.getElementById("errorMsg");
+
+    carta1.style.display = "none";
+    carta2.style.display = "none";
+    carta3.style.display = "none";
+    error.textContent = "";
+
+    if (clave === "pies") {
+      carta1.style.display = "block";
+    } else if (clave === "rosariotijeras") {
+      carta2.style.display = "block";
+  } else if (clave === "besar?") {
+      carta3.style.display = "block";
+    } else {
+      error.textContent = "Ups... esa no es la clave correcta";
+    }
+  }
+
+  const emojis = ["🌸", "🌺", "💮", "🌷"];
+  const cantidad = 25;
+
+  for (let i = 0; i < cantidad; i++) {
+    const emoji = document.createElement("div");
+    emoji.classList.add("emoji");
+    emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    emoji.style.left = Math.random() * 100 + "vw";
+    emoji.style.animationDuration = (4 + Math.random() * 6) + "s";
+    emoji.style.fontSize = (18 + Math.random() * 12) + "px";
+    document.body.appendChild(emoji);
+  }
+</script>
+<div class="card" style="max-width: 280px; margin: auto; font-family: Arial, sans-serif; background:#EEE; padding: 20px; border-radius: 12px; text-align: center;">
+  <h1>🎮 Desafío Tres en Raya</h1>
+  <p>
+    Gana para desbloquear las cartas secretas:<br>
+    - 3 victorias ➡️ Primera clave<br>
+    - 6 victorias ➡️ Segunda clave<br>
+    - 10 victorias ➡️ Tercera clave
+  </p>
+
+  <div id="tresEnRaya" style="display: grid; grid-template-columns: repeat(3, 80px); grid-gap: 8px; margin: 20px auto;"></div>
+
+  <div class="message" id="gatoMensaje" style="font-weight:bold; margin: 10px 0;">Turno: ❌</div>
+  <div class="message" style="margin-bottom: 10px;">
+    Victorias: <span id="victorias">0</span>
+  </div>
+  <div class="message" id="claveDesbloqueada" style="min-height: 24px; font-weight: bold; color: #2a7f62;"></div>
+
+  <button onclick="reiniciarGato()" style="margin-right: 10px; padding: 8px 15px; cursor:pointer;">Reiniciar Juego</button>
+  <button onclick="borrarProgreso()" style="padding: 8px 15px; cursor:pointer; background: #d9534f; color:#fff; border:none; border-radius:5px;">Borrar Progreso</button>
+</div>
+
+<script>
+  let gatoTablero = Array(9).fill('');
+  let gatoTurno = '❌'; // El jugador humano siempre es ❌
+  let gatoJuegoTerminado = false;
+  let victorias = localStorage.getItem('victoriasGato') ? parseInt(localStorage.getItem('victoriasGato')) : 0;
+
+  const gatoDiv = document.getElementById('tresEnRaya');
+  const mensajeGato = document.getElementById('gatoMensaje');
+  const victoriasSpan = document.getElementById('victorias');
+  const claveDiv = document.getElementById('claveDesbloqueada');
+
+  victoriasSpan.textContent = victorias;
+
+  const lineasGanadoras = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+
+  function dibujarGato() {
+    gatoDiv.innerHTML = '';
+    gatoTablero.forEach((celda, i) => {
+      const div = document.createElement('div');
+      div.style.background = '#fff';
+      div.style.height = '80px';
+      div.style.display = 'flex';
+      div.style.alignItems = 'center';
+      div.style.justifyContent = 'center';
+      div.style.fontSize = '36px';
+      div.style.borderRadius = '10px';
+      div.style.cursor = gatoJuegoTerminado || gatoTablero[i] ? 'default' : 'pointer';
+      div.style.userSelect = 'none';
+      div.textContent = celda;
+      div.onclick = () => jugarGato(i);
+      gatoDiv.appendChild(div);
+    });
+  }
+
+  function jugarGato(i) {
+    if (gatoTablero[i] || gatoJuegoTerminado) return;
+    if (gatoTurno !== '❌') return; // Sólo el humano juega con ❌
+    gatoTablero[i] = '❌';
+    actualizarEstadoPostJugada();
+    if (!gatoJuegoTerminado) {
+      // IA juega después de un pequeño retraso para que se note
+      gatoTurno = '⭕';
+      mensajeGato.textContent = `Turno: ${gatoTurno}`;
+      setTimeout(() => {
+        iaDificil();
+      }, 400);
+    }
+  }
+
+  function actualizarEstadoPostJugada() {
+    dibujarGato();
+
+    const ganador = verificarGanador(gatoTablero);
+    if (ganador) {
+      gatoJuegoTerminado = true;
+      if (ganador === '❌') {
+        mensajeGato.textContent = '¡Ganaste! 🎉';
+        victorias++;
+        localStorage.setItem('victoriasGato', victorias);
+        victoriasSpan.textContent = victorias;
+        verificarClaves();
+      } else if (ganador === '⭕') {
+        mensajeGato.textContent = 'Perdiste 🤖';
+      } else if (ganador === 'empate') {
+        mensajeGato.textContent = 'Empate 🙃';
+      }
+      return;
+    }
+
+    // Cambiar turno
+    gatoTurno = gatoTurno === '❌' ? '⭕' : '❌';
+    mensajeGato.textContent = `Turno: ${gatoTurno}`;
+  }
+
+  function iaDificil() {
+    let mejorScore = -Infinity;
+    let mejorMovimiento = -1;
+
+    for (let i = 0; i < 9; i++) {
+      if (!gatoTablero[i]) {
+        gatoTablero[i] = '⭕';
+        let score = minimax(gatoTablero, 0, false);
+        gatoTablero[i] = '';
+        if (score > mejorScore) {
+          mejorScore = score;
+          mejorMovimiento = i;
+        }
+      }
+    }
+
+    if (mejorMovimiento >= 0) {
+      gatoTablero[mejorMovimiento] = '⭕';
+      actualizarEstadoPostJugada();
+    }
+  }
+
+  function minimax(tablero, profundidad, esMax) {
+    const ganador = verificarGanador(tablero);
+    if (ganador) {
+      if (ganador === '⭕') return 10 - profundidad;
+      else if (ganador === '❌') return profundidad - 10;
+      else if (ganador === 'empate') return 0;
+    }
+
+    if (esMax) {
+      let mejor = -Infinity;
+      for (let i = 0; i < 9; i++) {
+        if (!tablero[i]) {
+          tablero[i] = '⭕';
+          mejor = Math.max(mejor, minimax(tablero, profundidad + 1, false));
+          tablero[i] = '';
+        }
+      }
+      return mejor;
+    } else {
+      let peor = Infinity;
+      for (let i = 0; i < 9; i++) {
+        if (!tablero[i]) {
+          tablero[i] = '❌';
+          peor = Math.min(peor, minimax(tablero, profundidad + 1, true));
+          tablero[i] = '';
+        }
+      }
+      return peor;
+    }
+  }
+
+  function verificarGanador(tablero) {
+    for (const [a, b, c] of lineasGanadoras) {
+      if (tablero[a] && tablero[a] === tablero[b] && tablero[a] === tablero[c]) {
+        return tablero[a];
+      }
+    }
+    if (tablero.every(c => c)) return 'empate';
+    return null;
+  }
+
+  function verificarClaves() {
+    if (victorias >= 3 && victorias < 6) claveDiv.innerHTML = '🔓 ¡Primera clave: "pies"!';
+    else if (victorias >= 6 && victorias < 10) claveDiv.innerHTML = '🔓 ¡Segunda clave: "rosariotijeras"!';
+    else if (victorias >= 10) claveDiv.innerHTML = '🔓 ¡Tercera clave: "besar?" jajaja';
+    else claveDiv.innerHTML = '';
+  }
+
+  function reiniciarGato() {
+    gatoTablero = Array(9).fill('');
+    gatoTurno = '❌';
+    gatoJuegoTerminado = false;
+    mensajeGato.textContent = `Turno: ${gatoTurno}`;
+    dibujarGato();
+  }
+
+  function borrarProgreso() {
+    victorias = 0;
+    localStorage.setItem('victoriasGato', victorias);
+    victoriasSpan.textContent = victorias;
+    claveDiv.innerHTML = '';
+    reiniciarGato();
+  }
+
+  // Al cargar la página:
+  dibujarGato();
+  verificarClaves();
+</script>
+
+</html>

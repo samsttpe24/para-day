@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="flor.png">
+  <title>De Mi Para Ti</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffe6f0, #ffe0fb);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+      text-align: center;
+      position: relative;
+      max-width: 90%;
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 48px;
+      color: #c084fc;
+      margin-bottom: 20px;
+      animation: fadeInTop 2s ease forwards;
+    }
+
+    @keyframes fadeInTop {
+      0% { opacity: 0; transform: translateY(-30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    svg {
+      width: 90vw;
+      max-width: 600px;
+      margin-bottom: 20px;
+      animation: fadeIn 3s ease forwards;
+    }
+
+    .emoji-rain {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .emoji-rain span {
+      position: absolute;
+      font-size: 28px;
+      opacity: 0.8;
+      animation: fall linear infinite;
+      text-shadow: 0 0 5px #fff;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+
+    .floating {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.07); }
+    }
+
+    .name-container {
+      font-family: 'Dancing Script', cursive;
+      font-size: 36px;
+      color: #c084fc;
+      text-shadow: 0 0 8px #fff;
+      display: inline-block;
+      cursor: pointer;
+      animation: fadeIn 4s ease forwards 12s;
+    }
+
+    .name-container span {
+      opacity: 0;
+      display: inline-block;
+      transform: translateY(20px);
+      animation: letterAppear 0.5s forwards;
+    }
+
+    .name-container:hover {
+      transform: scale(1.05);
+      text-shadow: 0 0 12px #fff, 0 0 18px #c084fc;
+    }
+
+    @keyframes letterAppear {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 500px) {
+      h1 { font-size: 36px; }
+      .name-container { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>De Mi Para Ti</h1>
+
+  <div class="emoji-rain">
+    <span style="left:10%; animation-delay: 0s;">🌸</span>
+    <span style="left:20%; animation-delay: 1s;">✨</span>
+    <span style="left:30%; animation-delay: 2s;">🌺</span>
+    <span style="left:40%; animation-delay: 3s;">🌷</span>
+    <span style="left:50%; animation-delay: 4s;">💐</span>
+    <span style="left:60%; animation-delay: 5s;">💮</span>
+    <span style="left:70%; animation-delay: 6s;">🌼</span>
+    <span style="left:80%; animation-delay: 7s;">🌸</span>
+    <span style="left:90%; animation-delay: 8s;">✨</span>
+  </div>
+
+  <svg viewBox="0 0 600 600">
+    <g id="rose-group">
+      <path id="rose" stroke="#c084fc" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2000" stroke-dashoffset="2000"/>
+    </g>
+  </svg>
+
+  <div class="name-container" id="name">
+    <!-- Letras se escribirán mágicamente -->
+  </div>
+</div>
+
+<script>
+  const path = document.getElementById("rose");
+  const group = document.getElementById("rose-group");
+
+  const a = 100, k = 4, cx = 300, cy = 250, steps = 1000;
+  const points = [];
+
+  for (let i = 0; i <= steps; i++) {
+    const theta = (Math.PI * 2 * i) / steps;
+    const r = a * Math.sin(k * theta);
+    const x = cx + r * Math.cos(theta);
+    const y = cy + r * Math.sin(theta);
+    points.push([x, y]);
+  }
+
+  let d = `M ${points[0][0]},${points[0][1]}`;
+  for (let i = 1; i < points.length; i++) {
+    d += ` L ${points[i][0]},${points[i][1]}`;
+  }
+
+  path.setAttribute("d", d);
+  path.style.animation = "draw 10s ease forwards";
+
+  setTimeout(() => group.classList.add('floating'), 12000);
+  group.style.cursor = "pointer";
+  group.onclick = () => window.location.href = "final.html";
+
+  const styleSheet = document.createElement("style");
+  styleSheet.innerHTML = `@keyframes draw { to { stroke-dashoffset: 0; } }`;
+  document.head.appendChild(styleSheet);
+
+  // Animación del nombre: "Paola Dayanna"
+  const nameText = "Paola Dayanna";
+  const nameContainer = document.getElementById('name');
+  nameText.split('').forEach((char, index) => {
+    const span = document.createElement('span');
+    span.textContent = char;
+    span.style.animationDelay = `${index * 0.15 + 13}s`;
+    nameContainer.appendChild(span);
+  });
+
+  // Emojis lluvia
+  const emojis = document.querySelectorAll('.emoji-rain span');
+  emojis.forEach((emoji, i) => {
+    emoji.style.animationDuration = `${5 + (i % 5)}s`;
+  });
+</script>
+
+</body>
+</html>
