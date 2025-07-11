@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="flor.png" />
+  <title>Una última cosita...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      background-image: url('fondo1.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      font-family: 'Poppins', sans-serif;
+      color: #4c1d95;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    h1, h2 {
+      font-family: 'Dancing Script', cursive;
+      color: #9333ea;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 5px rgba(255,255,255,0.7);
+    }
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #5b21b6;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 1.8rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      max-width: 600px;
+      width: 100%;
+      margin: 1.5rem 0;
+      animation: fadeInZoom 1.2s ease;
+      position: relative;
+      z-index: 1;
+    }
+    @keyframes fadeInZoom {
+      from { opacity: 0; transform: scale(0.95) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .love-button {
+      background: linear-gradient(45deg, #d291ff, #b88de0);
+      color: white;
+      padding: 12px 25px;
+      font-family: 'Dancing Script', cursive;
+      border-radius: 30px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .love-button:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .hidden-letter {
+      display: none;
+      background-color: #f3e8ff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px #d8b4fe;
+      margin-top: 1rem;
+      animation: fadeInZoom 1s ease;
+    }
+    input[type=text] {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 1rem;
+      width: 80%;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #c084fc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-size: 1rem;
+    }
+    button:hover {
+      background-color: #a855f7;
+    }
+    #errorMsg {
+      color: red;
+      margin-top: 0.5rem;
+      min-height: 1.2rem;
+    }
+    /* Tres en raya difícil y fácil */
+    #tresEnRaya, #tresEnRayaFacil {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      grid-gap: 8px;
+      margin: 20px auto;
+    }
+    #tresEnRaya div, #tresEnRayaFacil div {
+      background: #fff;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+    #tresEnRaya div.disabled, #tresEnRayaFacil div.disabled {
+      cursor: default;
+      background: #eee;
+    }
+    .message {
+      font-weight: bold;
+      margin-top: 10px;
+      text-align: center;
+      color: #4c1d95;
+    }
+    #victorias {
+      font-weight: bolder;
+      color: #9333ea;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cartas y contenido -->
+  <div class="card">
+    <h1>🌸 Algo pequeño que decirte</h1>
+    <p>Cuando no te busco es porque no pude, no porque no quisiera...</p>
+  </div>
+
+  <div class="card">
+    <h1>💌 Una versión rara</h1>
+    <p>Mantenimiento...</p>
+  </div>
+
+  <div class="card">
+    <h1>🌷 Un recuerdo</h1>
+    <p>¿Te acuerdas de la primera página? <br><a href="x.html" class="love-button">Visitar</a></p>
+  </div>
+
+  <!-- Barra única para claves y comandos -->
+  <div class="card">
+    <h1>🔑 Claves y comandos</h1>
+    <input type="text" id="inputComando" placeholder="Escribe clave o comando aquí..." autocomplete="off" />
+    <button onclick="procesarInput()">Enviar</button>
+    <div id="errorMsg"></div>
+
+    <!-- Cartas secretas -->
+    <div id="cartaSecreta" class="hidden-letter">
+      <p>La verdad creo que no hay nada que no te haya dicho, han sido 3 meses en los que te he conocido, he hablado de más y me he estado enamorando (eso es hablar de más). No sé cómo explicarlo, pero desde que apareciste, incluso los días más simples tienen algo bonito. Es como si tu existencia le pusiera magia a lo cotidiano.</p>
+    </div>
+    <div id="cartaExtra" class="hidden-letter">
+      <p>Últimamente te siento diferente y ya te lo he dicho, no sé, alomejor ya no quieres nada conmigo y lo entendería. Cuando no tenías teléfono fueron dos semanas en las que pudieron pasar y cambiar muchas cosas y si es así solo dime.<br><br>Cambiando de cosas y si no es así y ya me estoy volviendo loco serías la razón por la que ya no creo en el ‘solo amigos’.<br>¿Quieres que deje de jugar y pasemos a cosas más serias? Bueno, no sé jaja ja, a veces siento que me voy a arrepentir de escribir estas cosas.</p>
+    </div>
+    <div id="carta3" class="hidden-letter">
+      <p>Si tú crees que hay alguien más que te llegue a hacer feliz sin dudarlo te diría que te fueras con él porque no sé si te pueda ofrecer mucho así que ya no seguiría leyendo.<br><br>Pero si no es así...<br><br>Quería tomar un momento para decirte que desde que te conozco, he admirado la forma en que eres: auténtica, fuerte y con una luz que no pasa desapercibida. No es solo tu presencia, sino la esencia que transmites, lo que me ha dejado pensando en lo valioso que sería compartir más momentos contigo.<br><br>No sé qué caminos nos esperan, pero sí sé que me gustaría descubrirlos a tu lado, sin prisas y con la sinceridad que merecen las cosas importantes.<br><br>Solo quería que lo supieras, sin presiones, pero con toda la intención.</p>
+    </div>
+
+  </div>
+
+  <!-- Juego Tres en Raya Difícil (visible siempre) -->
+  <div class="card">
+    <h1>Tres en Raya (Difícil)</h1>
+    <p>Gana para desbloquear las cartas secretas:<br>
+      - 3 victorias Primera clave<br>
+      - 6 victorias Segunda clave<br>
+      - 10 victorias Tercera clave
+    </p>
+    <div id="tresEnRaya"></div>
+    <div class="message" id="gatoMensaje">Turno: ❌</div>
+    <div class="message">Victorias: <span id="victorias">0</span></div>
+    <div class="message" id="claveDesbloqueada"></div>
+    <button onclick="reiniciarGato()">Reiniciar Juego</button>
+  </div>
+
+  <!-- Juego Tres en Raya Fácil (oculto, se muestra con comando) -->
+  <div class="card" id="juegoFacilContainer" style="display:none;">
+    <h1>🎮 Desafío Tres en Raya (Fácil)</h1>
+    <p>Este juego se activa con el comando <code>dificultad facil</code>. ¡Diviértete! 🥳</p>
+    <div id="tresEnRayaFacil"></div>
+    <div class="message" id="gatoMensajeFacil" style="font-weight:bold; margin: 10px 0;">Turno: ❌</div>
+    <button onclick="reiniciarGatoFacil()">Reiniciar Juego Fácil</button>
+  </div>
+
+  <!-- Chatbot oculto por defecto -->
+  <div class="card" id="chatbot" style="display:none;">
+    <h1>💬 Chatbot</h1>
+    <div id="messages" style="background: #fff; border-radius: 8px; padding: 10px; height: 250px; overflow-y: auto; box-shadow: inset 0 0 5px rgba(0,0,0,0.1);"></div>
+    <input type="text" id="userInput" placeholder="Pregunta algo..." autocomplete="off" />
+    <button onclick="handleUserInput()">Enviar</button>
+  </div>
+
+  <script>
+    // Variables globales
+    let victorias = 0;
+    let dificultad = 'dificil'; // por defecto difícil
+
+    // Mostrar cartas según victorias
+    function mostrarClaveSegunVictorias() {
+      const carta1 = document.getElementById("cartaSecreta");
+      const carta2 = document.getElementById("cartaExtra");
+      const carta3 = document.getElementById("carta3");
+      const claveDesbloqueada = document.getElementById("claveDesbloqueada");
+      claveDesbloqueada.textContent = '';
+      carta1.style.display = 'none';
+      carta2.style.display = 'none';
+      carta3.style.display = 'none';
+
+      if (victorias >= 3) {
+        carta1.style.display = 'block';
+        claveDesbloqueada.textContent = 'Primera clave desbloqueada: pies';
+      }
+      if (victorias >= 6) {
+        carta2.style.display = 'block';
+        claveDesbloqueada.textContent = 'Segunda clave desbloqueada: rosariotijeras';
+      }
+      if (victorias >= 10) {
+        carta3.style.display = 'block';
+        claveDesbloqueada.textContent = 'Tercera clave desbloqueada: besar?';
+      }
+    }
+
+    // PROCESAR ENTRADA (comandos y claves)
+    function procesarInput() {
+      const input = document.getElementById('inputComando');
+      const texto = input.value.trim().toLowerCase();
+      const errorMsg = document.getElementById('errorMsg');
+      errorMsg.textContent = '';
+      input.value = '';
+
+      if (!texto) return;
+
+      // Comandos
+      if (texto === 'ver claves') {
+        alert('Claves disponibles:\npies\nrosariotijeras\nbesar?');
+        return;
+      }
+      if (texto === 'dificultad facil') {
+        dificultad = 'facil';
+        document.getElementById('juegoFacilContainer').style.display = 'block';
+        document.getElementById('chatbot').style.display = 'none';
+        alert('Dificultad cambiada a Fácil. Juego fácil activado. Chatbot oculto.');
+        return;
+      }
+      if (texto === 'dificultad dificil') {
+        dificultad = 'dificil';
+        document.getElementById('juegoFacilContainer').style.display = 'none';
+        alert('Dificultad cambiada a Difícil. Juego difícil activado.');
+        return;
+      }
+      if (texto === 'mostrar chatbot') {
+        document.getElementById('chatbot').style.display = 'block';
+        alert('Chatbot visible.');
+        return;
+      }
+      if (texto === 'ocultar chatbot') {
+        document.getElementById('chatbot').style.display = 'none';
+        alert('Chatbot oculto.');
+        return;
+      }
+
+      // Claves
+      if (texto === 'pies') {
+        mostrarSoloCarta('cartaSecreta');
+        return;
+      }
+      if (texto === 'rosariotijeras') {
+        mostrarSoloCarta('cartaExtra');
+        return;
+      }
+      if (texto === 'besar?') {
+        mostrarSoloCarta('carta3');
+        return;
+      }
+
+      errorMsg.textContent = 'Clave o comando incorrecto.';
+    }
+
+    function mostrarSoloCarta(idCarta) {
+      const cartas = ['cartaSecreta', 'cartaExtra', 'carta3'];
+      cartas.forEach(id => {
+        document.getElementById(id).style.display = (id === idCarta) ? 'block' : 'none';
+      });
+    }
+
+    // ----------------- Juego Difícil -------------------
+
+    let tablero = Array(9).fill('');
+    let turno = '❌';
+    let juegoTerminado = false;
+
+    const div = document.getElementById('tresEnRaya');
+    const mensaje = document.getElementById('gatoMensaje');
+    const victoriasSpan = document.getElementById('victorias');
+
+    function dibujarGato() {
+      div.innerHTML = '';
+      tablero.forEach((celda, i) => {
+        const celdaDiv = document.createElement('div');
+        celdaDiv.textContent = tablero[i];
+        celdaDiv.className = (juegoTerminado || tablero[i]) ? 'disabled' : '';
+        celdaDiv.onclick = () => jugar(i);
+        div.appendChild(celdaDiv);
+      });
+    }
+
+    function jugar(i) {
+      if (tablero[i] || juegoTerminado) return;
+      if (turno !== '❌') return; // jugador es ❌
+      tablero[i] = '❌';
+      actualizarEstado();
+      if (!juegoTerminado) {
+        turno = '⭕';
+        mensaje.textContent = `Turno: ${turno}`;
+        setTimeout(() => ia(), 300);
+      }
+    }
+
+    // IA con Minimax (muy difícil)
+    function ia() {
+      if (juegoTerminado) return;
+      let mejorPuntaje = -Infinity;
+      let mejorMovimiento = -1;
+      for (let i = 0; i < 9; i++) {
+        if (tablero[i] === '') {
+          tablero[i] = '⭕';
+          let puntaje = minimax(tablero, false);
+          tablero[i] = '';
+          if (puntaje > mejorPuntaje) {
+            mejorPuntaje = puntaje;
+            mejorMovimiento = i;
+          }
+        }
+      }
+      tablero[mejorMovimiento] = '⭕';
+      actualizarEstado();
+    }
+
+    function minimax(tableroActual, esMaximizador) {
+      const ganador = verificarGanador(tableroActual);
+      if (ganador !== null) {
+        if (ganador === '⭕') return 10;
+        else if (ganador === '❌') return -10;
+        else if (ganador === 'empate') return 0;
+      }
+
+      if (esMaximizador) {
+        let mejorPuntaje = -Infinity;
+        for (let i = 0; i < 9; i++) {
+          if (tableroActual[i] === '') {
+            tableroActual[i] = '⭕';
+            let puntaje = minimax(tableroActual, false);
+            tableroActual[i] = '';
+            mejorPuntaje = Math.max(puntaje, mejorPuntaje);
+          }
+        }
+        return mejorPuntaje;
+      } else {
+        let mejorPuntaje = Infinity;
+        for (let i = 0; i < 9; i++) {
+          if (tableroActual[i] === '') {
+            tableroActual[i] = '❌';
+            let puntaje = minimax(tableroActual, true);
+            tableroActual[i] = '';
+            mejorPuntaje = Math.min(puntaje, mejorPuntaje);
+          }
+        }
+        return mejorPuntaje;
+      }
+    }
+
+    function verificarGanador(tableroEval) {
+      const lineas = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+      ];
+      for (const [a,b,c] of lineas) {
+        if (tableroEval[a] && tableroEval[a] === tableroEval[b] && tableroEval[a] === tableroEval[c]) {
+          return tableroEval[a];
+        }
+      }
+      if (tableroEval.every(c => c !== '')) return 'empate';
+      return null;
+    }
+
+    function actualizarEstado() {
+      dibujarGato();
+      const ganador = verificarGanador(tablero);
+      if (ganador) {
+        juegoTerminado = true;
+        if (ganador === '❌') {
+          mensaje.textContent = '¡Ganaste! ';
+          victorias++;
+          victoriasSpan.textContent = victorias;
+          mostrarClaveSegunVictorias();
+        } else if (ganador === '⭕') {
+          mensaje.textContent = 'Perdiste ';
+        } else {
+          mensaje.textContent = 'Empate ';
+        }
+        return;
+      }
+      turno = turno === '❌' ? '⭕' : '❌';
+      mensaje.textContent = `Turno: ${turno}`;
+    }
+
+    function reiniciarGato() {
+      tablero = Array(9).fill('');
+      turno = '❌';
+      juegoTerminado = false;
+      mensaje.textContent = `Turno: ❌`;
+      dibujarGato();
+    }
+
+    // Iniciar dibujo
+    dibujarGato();
+
+    // ----------------- Juego Fácil -------------------
+
+    let tableroFacil = Array(9).fill('');
+    let turnoFacil = '❌';
+    let juegoTerminadoFacil = false;
+
+    const divFacil = document.getElementById('tresEnRayaFacil');
+    const mensajeFacil = document.getElementById('gatoMensajeFacil');
+
+    function dibujarGatoFacil() {
+      divFacil.innerHTML = '';
+      tableroFacil.forEach((celda, i) => {
+        const celdaDiv = document.createElement('div');
+        celdaDiv.textContent = tableroFacil[i];
+        celdaDiv.className = (juegoTerminadoFacil || tableroFacil[i]) ? 'disabled' : '';
+        celdaDiv.onclick = () => jugarFacil(i);
+        divFacil.appendChild(celdaDiv);
+      });
+    }
+
+    function jugarFacil(i) {
+      if (tableroFacil[i] || juegoTerminadoFacil) return;
+      if (turnoFacil !== '❌') return;
+      tableroFacil[i] = '❌';
+      actualizarEstadoFacil();
+      if (!juegoTerminadoFacil) {
+        turnoFacil = '⭕';
+        mensajeFacil.textContent = `Turno: ${turnoFacil}`;
+        setTimeout(() => iaFacil(), 300);
+      }
+    }
+
+    function iaFacil() {
+      if (juegoTerminadoFacil) return;
+      let jugadasLibres = [];
+      for (let i = 0; i < 9; i++) {
+        if (tableroFacil[i] === '') jugadasLibres.push(i);
+      }
+      if (jugadasLibres.length === 0) return;
+      const movimiento = jugadasLibres[Math.floor(Math.random() * jugadasLibres.length)];
+      tableroFacil[movimiento] = '⭕';
+      actualizarEstadoFacil();
+    }
+
+    function verificarGanadorFacil(tableroEval) {
+      const lineas = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+      ];
+      for (const [a,b,c] of lineas) {
+        if (tableroEval[a] && tableroEval[a] === tableroEval[b] && tableroEval[a] === tableroEval[c]) {
+          return tableroEval[a];
+        }
+      }
+      if (tableroEval.every(c => c !== '')) return 'empate';
+      return null;
+    }
+
+    function actualizarEstadoFacil() {
+      dibujarGatoFacil();
+      const ganador = verificarGanadorFacil(tableroFacil);
+      if (ganador) {
+        juegoTerminadoFacil = true;
+        if (ganador === '❌') {
+          mensajeFacil.textContent = '¡Ganaste! ';
+          victorias++;
+          victoriasSpan.textContent = victorias;
+          mostrarClaveSegunVictorias();
+        } else if (ganador === '⭕') {
+          mensajeFacil.textContent = 'Perdiste ';
+        } else {
+          mensajeFacil.textContent = 'Empate ';
+        }
+        return;
+      }
+      turnoFacil = turnoFacil === '❌' ? '⭕' : '❌';
+      mensajeFacil.textContent = `Turno: ${turnoFacil}`;
+    }
+
+    function reiniciarGatoFacil() {
+      tableroFacil = Array(9).fill('');
+      turnoFacil = '❌';
+      juegoTerminadoFacil = false;
+      mensajeFacil.textContent = `Turno: ❌`;
+      dibujarGatoFacil();
+    }
+
+    // Inicia juego fácil para cuando se muestre
+    dibujarGatoFacil();
+
+    // -------------------- Chatbot -------------------
+
+    // Simplicidad: responderá con mensajes simples
+    const chatbotDiv = document.getElementById('chatbot');
+    const messagesDiv = document.getElementById('messages');
+    const userInput = document.getElementById('userInput');
+
+    const respuestas = {
+      'hola': 'Hola, ¿en qué puedo ayudarte?',
+      '¿cómo estás?': 'Estoy bien, gracias por preguntar :)',
+      'adiós': '¡Hasta luego! Que tengas un buen día.',
+      // Agrega más preguntas y respuestas según necesites
+    };
+
+    function handleUserInput() {
+      const pregunta = userInput.value.trim().toLowerCase();
+      if (!pregunta) return;
+      appendMessage('Tú', pregunta);
+      userInput.value = '';
+      setTimeout(() => {
+        let respuesta = respuestas[pregunta] || 'Lo siento, no entiendo esa pregunta.';
+        appendMessage('Bot', respuesta);
+      }, 700);
+    }
+
+    function appendMessage(quien, texto) {
+      const msg = document.createElement('div');
+      msg.textContent = `${quien}: ${texto}`;
+      messagesDiv.appendChild(msg);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+  </script>
+</body>
+</html>
