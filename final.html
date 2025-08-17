@@ -105,7 +105,7 @@
       margin-top: 0.5rem;
       min-height: 1.2rem;
     }
-    /* Tres en raya difícil y fácil */
+    
     #tresEnRaya, #tresEnRayaFacil {
       display: grid;
       grid-template-columns: repeat(3, 80px);
@@ -141,10 +141,10 @@
 </head>
 <body>
 
-  <!-- Cartas y contenido -->
+  
   <div class="card">
     <h1>🌸 Algo pequeño que decirte</h1>
-    <p>lo que te tengo que preguntar siempre me da miedo porque no se cual sea tu respuesta... </p>
+    <p></p>.. </p>
   </div>
 
   <div class="card">
@@ -154,33 +154,29 @@
 
   <div class="card">
     <h1>🌷 Un recuerdo</h1>
-    <p>¿Te acuerdas de la primera página? <br><a href="x.html" class="love-button">Visitar</a></p>
+    <p>¿Te acuerdas de la primera página? <br><a href="x1.html" class="love-button">Visitar</a></p>
   </div>
 
-  <!-- Barra única para claves y comandos -->
+  
   <div class="card">
     <h1>🔑 Claves y comandos</h1>
     <input type="text" id="inputComando" placeholder="Escribe clave o comando aquí..." autocomplete="off" />
     <button onclick="procesarInput()">Enviar</button>
     <div id="errorMsg"></div>
 
-    <!-- Cartas secretas -->
+    
     <div id="cartaSecreta" class="hidden-letter">
-      <p> estoy escribiendo estando en tu fiesta porque se me va la inspiración. (no puedo ser serio para nada)  
-      Mira la verdad... Una vez si me dolió, me quemo te juro que casi estaba pa llorar, pero ya dos veces. Es para preguntarme muchas cosas. </p>
-    </div>
+      <p> </p></DIV>
     <div id="cartaExtra" class="hidden-letter">
-      <p>me quieres? No me quieres? Juegas conmigo? Que soy para ti? <br> <br> mira yo se que era tu fiesta, estabas con tus amigos pero encerio vivi la peor gosteada de mi vida. Yo te pregunté ¿quieres que vaya? Y cual fue tu respuesta..  <br><BR> Esta bien no me siento mal por  eso, lo que me da cosa es que tampoco eres para explicar, dime tus razones. Aveces uno se cansa de pedir perdón por algo que ni sabes. Si hice algo malo perdón, pero no entiendo <BR><BR><br> y aunque la verdad ya te lo eh preguntado muchas veces te lo vuelvo a preguntar ¿me quedo❤️ o me voy💔?  </p>
-    </div>
+      <p></p></div>
     <div id="carta3" class="hidden-letter">
-      <p>mira alomejor tampoco tengo derecho de preguntar eso, porque no somos nada, aunque para mi si eras algo, no una novia algo que se siente muy bonito (hablando de bonito te vez hermosa hoy eh) eras algo el lo que no paro de pensar, algo que ame en secreto por miedo a ser rechazado, no se que tienes que fascina, solo que aveces no entiendo 😔.<BR><BR> Tu misma te has dicho loca, te has dicho inmadura, pero ahora si que "por loca inmadura me encantas" pero por favor explicame, dime que pasa. </p>
-    </div>
+      <p></p></div>
 
   </div>
 
-  <!-- Juego Tres en Raya Difícil (visible siempre) -->
+  
   <div class="card">
-    <h1>Tres en Raya (Difícil)</h1>
+    <h1>gato</h1>
     <p>Gana para desbloquear las cartas secretas:<br>
       - 3 victorias Primera clave<br>
       - 6 victorias Segunda clave<br>
@@ -203,13 +199,7 @@
   </div>
 
   <!-- Chatbot oculto por defecto -->
-  <div class="card" id="chatbot" style="display:none;">
-    <h1>💬 Chatbot</h1>
-    <div id="messages" style="background: #fff; border-radius: 8px; padding: 10px; height: 250px; overflow-y: auto; box-shadow: inset 0 0 5px rgba(0,0,0,0.1);"></div>
-    <input type="text" id="userInput" placeholder="Pregunta algo..." autocomplete="off" />
-    <button onclick="handleUserInput()">Enviar</button>
-  </div>
-
+  
   <script>
     // Variables globales
     let victorias = 0;
@@ -228,19 +218,19 @@
 
       if (victorias >= 3) {
         carta1.style.display = 'block';
-        claveDesbloqueada.textContent = 'Primera clave desbloqueada: pies';
+        claveDesbloqueada.textContent = 'Primera clave desbloqueada: 1';
       }
       if (victorias >= 6) {
         carta2.style.display = 'block';
-        claveDesbloqueada.textContent = 'Segunda clave desbloqueada: rosariotijeras';
+        claveDesbloqueada.textContent = 'Segunda clave desbloqueada: 2';
       }
       if (victorias >= 10) {
         carta3.style.display = 'block';
-        claveDesbloqueada.textContent = 'Tercera clave desbloqueada: besar?';
+        claveDesbloqueada.textContent = 'Tercera clave desbloqueada: 3';
       }
     }
 
-    // PROCESAR ENTRADA (comandos y claves)
+    
     function procesarInput() {
       const input = document.getElementById('inputComando');
       const texto = input.value.trim().toLowerCase();
@@ -250,7 +240,7 @@
 
       if (!texto) return;
 
-      // Comandos
+      /
       if (texto === 'ver claves') {
         alert('Claves disponibles:\npies\nrosariotijeras\nbesar?');
         return;
@@ -279,7 +269,7 @@
         return;
       }
 
-      // Claves
+      
       if (texto === '1') {
         mostrarSoloCarta('cartaSecreta');
         return;
