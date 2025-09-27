@@ -136,7 +136,7 @@
 </head>
 <body>
 
-  <!-- Mensaje final -->
+  
   <div class="card">
     <h1>Gracias por llegar hasta aquí 💜</h1>
     <p>
@@ -150,17 +150,17 @@
     </p>
   </div>
 
-  <!-- Acceso a carta secreta -->
+
   <div class="card">
     <h1>¿Una última sorpresa? </h1>
     <p>Si descubres la palabra secreta podrás ver algo más que te escribí </p>
 
-    <input type="text" id="clave" placeholder="Ingresa la clave secreta">
+    <input type="text" id="clave" placeholder="Ingresa la clave secreta (lo dices mucho)">
     <br>
     <button onclick="verificarClave()">Desbloquear</button>
     <div class="error" id="errorMsg"></div>
 
-    <!-- Carta oculta -->
+   
     <div class="hidden-letter" id="cartaSecreta">
       <h2>La verdad</h2>
       <p>
@@ -178,7 +178,6 @@
     </div>
   </div>
 
-  <!-- Emojis flotando -->
   <script>
     function verificarClave() {
       const clave = document.getElementById("clave").value.trim().toLowerCase();
